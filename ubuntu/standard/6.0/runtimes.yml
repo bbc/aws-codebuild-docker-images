@@ -6,13 +6,17 @@ runtimes:
       1.18:
         commands:
           - echo "Installing Go version 1.18 ..."
-          - goenv global  $GOLANG_18_VERSION
+          - goenv global $GOLANG_18_VERSION
   python:
     versions:
       3.10:
         commands:
           - echo "Installing Python version 3.10 ..."
-          - pyenv global  $PYTHON_310_VERSION
+          - pyenv global $PYTHON_310_VERSION
+      3.9:
+        commands:
+          - echo "Installing Python version 3.9 ..."
+          - pyenv global $PYTHON_39_VERSION
   ruby:
     versions:
       3.1:

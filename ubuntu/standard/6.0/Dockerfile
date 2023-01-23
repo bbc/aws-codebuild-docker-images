@@ -156,7 +156,23 @@ RUN rbenv install $RUBY_31_VERSION && rm -rf /tmp/* \
 
 #**************** END RUBY *****************************************************
 
-#**************** PYTHON *****************************************************
+#**************** PYTHON 3.9 *****************************************************
+ENV PYTHON_39_VERSION="3.9.16"
+
+ARG PYTHON_PIP_VERSION=22.1.2
+ENV PYYAML_VERSION=5.4.1
+
+COPY tools/runtime_configs/python/$PYTHON_39_VERSION /root/.pyenv/plugins/python-build/share/python-build/$PYTHON_39_VERSION
+RUN   env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install $PYTHON_39_VERSION && rm -rf /tmp/*
+RUN   pyenv global  $PYTHON_39_VERSION
+RUN set -ex \
+    && pip3 install --no-cache-dir --upgrade --force-reinstall "pip==$PYTHON_PIP_VERSION" \
+    && pip3 install --no-cache-dir --upgrade "PyYAML==$PYYAML_VERSION" \
+    && pip3 install --no-cache-dir --upgrade 'setuptools==62.6.0' wheel aws-sam-cli boto3 pipenv virtualenv
+
+#**************** END PYTHON 3.9 *****************************************************
+
+#**************** PYTHON 3.10 *****************************************************
 ENV PYTHON_310_VERSION="3.10.5"
 
 ARG PYTHON_PIP_VERSION=22.1.2
@@ -170,7 +186,7 @@ RUN set -ex \
     && pip3 install --no-cache-dir --upgrade "PyYAML==$PYYAML_VERSION" \
     && pip3 install --no-cache-dir --upgrade 'setuptools==62.6.0' wheel aws-sam-cli boto3 pipenv virtualenv
 
-#**************** END PYTHON *****************************************************
+#**************** END PYTHON 3.10 *****************************************************
 
 #****************     GOLANG     ****************************************************
 ENV GOLANG_18_VERSION="1.18.3"
@@ -222,9 +238,9 @@ FROM runtimes_n_corretto AS std_v6
 
 # Activate runtime versions specific to image version.
 RUN n $NODE_16_VERSION
-RUN pyenv  global $PYTHON_310_VERSION
-RUN rbenv  global $RUBY_31_VERSION
-RUN goenv global  $GOLANG_18_VERSION
+RUN pyenv global $PYTHON_310_VERSION
+RUN rbenv global $RUBY_31_VERSION
+RUN goenv global $GOLANG_18_VERSION
 
 # Configure SSH
 COPY ssh_config /root/.ssh/config
