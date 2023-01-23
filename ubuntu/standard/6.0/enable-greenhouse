@@ -1,0 +1,10 @@
+#!/bin/sh
+set -e
+
+echo "enable-greenhouse triggered."
+
+# Datalab Greenhouse
+
+aws secretsmanager get-secret-value --secret-id $GREENHOUSE_SSH_KEY --region eu-west-1 --query SecretString --output text > /root/.ssh/id_rsa
+# chmod 700 ~/.ssh
+aws secretsmanager get-secret-value --secret-id $GITHUB_SSH_KNOWN_HOSTS --region eu-west-1 --query SecretString --output text > /root/.ssh/known_hosts
