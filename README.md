@@ -41,3 +41,31 @@ The following images are actively maintained by AWS CodeBuild, and are listed in
 + [amazonlinux2-x86_64-standard:4.0](al2/x86_64/standard/4.0)
 + [amazonlinux2-aarch64-standard:1.0](al2/aarch64/standard/1.0)
 + [amazonlinux2-aarch64-standard:2.0](al2/aarch64/standard/2.0)
+
+### BBC Datalab
+
+### Set the management account env var
+
+```
+export MGMT_ACCOUNT_ID=123456789012
+
+```
+
+#### Build the image
+
+```
+cd ubuntu/standard/6.0
+docker build -t ${MGMT_ACCOUNT_ID}.dkr.ecr.eu-west-1.amazonaws.com/aws-codebuild/standard-6:latest
+```
+
+#### Set Docker ECR authentication
+
+```
+aws ecr get-login-password --region region | docker login --username AWS --password-stdin ${MGMT_ACCOUNT_ID}.dkr.ecr.eu-west-1.amazonaws.com
+```
+
+#### Push the image
+
+```
+docker push ${MGMT_ACCOUNT_ID}.dkr.ecr.eu-west-1.amazonaws.com
+```

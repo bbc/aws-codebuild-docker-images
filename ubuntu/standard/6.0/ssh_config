@@ -1,3 +1,4 @@
 Host *
   ConnectTimeout 10
   ConnectionAttempts 10
+  IdentityFile /root/.ssh/id_rsa
